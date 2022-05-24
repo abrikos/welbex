@@ -81,7 +81,7 @@ function App() {
     return (
         <div className="App">
             <div style={{textAlign:'left'}}>
-            {list.map((l)=><div>{l.createdAt} <strong>{l.user?.username}</strong>: {l.text}</div>)}
+            {list.map((l)=><div key={l.id}>{l.createdAt} <strong>{l.user?.username}</strong>: {l.text}</div>)}
             </div>
             {user && <div>
                 <input onChange={({target})=>setText(target.value)}/>
