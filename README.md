@@ -29,4 +29,6 @@ You may also see any lint errors in the console.
 ## Start backend
 ### `npm run backend`
 
+## Swagger
+http://localhost:4000
 
