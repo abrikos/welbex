@@ -1,4 +1,0 @@
-CREATE USER IF NOT EXISTS 'user'@'localhost' IDENTIFIED BY 'password';
-CREATE DATABASE IF NOT EXISTS  test;
-GRANT ALL PRIVILEGES ON test.* TO 'user'@'localhost';
-FLUSH PRIVILEGES;
