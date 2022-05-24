@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const sequelize = require('./sequelize');
 const router = require('./router')
 
-const portWeb = process.env.API_PORT || 4000;
+const portWeb = 4000;
 const app = express();
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
