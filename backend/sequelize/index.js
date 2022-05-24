@@ -7,6 +7,7 @@ const modelDefiners = [
     require('./models/User'),
     require('./models/Message'),
     require('./models/Token'),
+    require('./models/Image'),
 ];
 
 // We define all models according to their files.

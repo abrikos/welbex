@@ -1,31 +1,27 @@
-import './App.css';
+import './app.sass';
 import {useEffect, useState} from "react";
+import axios from 'axios'
+import Form from "./Form";
 
 function App() {
     const [list, setList] = useState([]);
-    const [text, setText] = useState('');
     const [user, setUser] = useState();
+    const [edit, setEdit] = useState();
     const [error, setError] = useState({});
 
     async function post(path, payload) {
         return new Promise((resolve, reject) => {
-            fetch('/api' + path,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
+            axios.post('/api' + path, payload, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
                 }
-            )
+            })
                 .then(async response => {
-                    console.log(response)
-                    if (response.status !== 200) return reject(await response.json())
-                    return response.json();
-                })
-                .then(x => {
-                    resolve(x)
+                    if (response.status !== 200) {
+                        return reject(await response.data)
+                    }
+                    console.log(path, response.data)
+                    resolve(response.data)
                 })
                 .catch(reject)
 
@@ -38,13 +34,13 @@ function App() {
     }, [])
 
     async function getUser() {
-        const user = await post('/get/user')
+        const user = await post('/user/view')
         console.log(user)
         setUser(user)
     }
 
     async function logout(e, form) {
-        post('/logout')
+        post('/user/logout')
         setUser()
         setError({})
     }
@@ -53,7 +49,7 @@ function App() {
         e.preventDefault();
         const formData = Object.fromEntries(new FormData(e.target));
         //TODO form validation
-        const res = await post('/login', formData).catch(setError)
+        const res = await post('/user/login', formData).catch(setError)
         if (!res) return
         setError({})
         setUser(res)
@@ -62,31 +58,23 @@ function App() {
     async function signup(e) {
         e.preventDefault();
         const formData = Object.fromEntries(new FormData(e.target));
-        const res = await post('/signup', formData).catch(setError)
-        if(!res) return
+        const res = await post('/user/signup', formData).catch(setError)
+        if (!res) return
         setUser(res)
         setError({})
     }
 
-    async function postsList(){
-        const list = await post('/post/list', {text})
+    async function postsList() {
+        const list = await post('/post/list')
         setList(list)
     }
 
-    async function postCreate(){
-        await post('/post/create', {text})
-        postsList()
+    function close(){
+        setEdit(null)
     }
 
     return (
         <div className="App">
-            <div style={{textAlign:'left'}}>
-            {list.map((l)=><div key={l.id}>{l.createdAt} <strong>{l.user?.username}</strong>: {l.text}</div>)}
-            </div>
-            {user && <div>
-                <input onChange={({target})=>setText(target.value)}/>
-                <button onClick={postCreate}>Send as "{user.username}"</button>
-            </div>}
             {!user && <div>
                 <form onSubmit={login}>
                     <h2>Sign in</h2>
@@ -104,8 +92,27 @@ function App() {
                     <button type="submit">Send</button>
                 </form>
             </div>}
-            {user && <button onClick={logout}>Logout</button>}
             {error.status && <div style={{color: 'red'}}>{error.message}</div>}
+            {user && <h1>{user.username}
+                <button onClick={logout}>Logout</button>
+            </h1>}
+            {user && <Form close={close} reload={postsList}/>}
+            <div style={{textAlign: 'left'}} className="postList">
+                {list.map((l) => edit === l.id ? <Form close={close} reload={postsList} message={l}/> :
+                    <div key={l.id} className="message">
+                        <div className="head">
+                            <small>{l.createdAt}</small>{' '}
+                            <strong>{l.user?.username}</strong>
+                            {user && l.user.id === user.id && <button onClick={() => setEdit(l.id)}>Edit</button>}
+                        </div>
+                        <div className="text">
+                            {l.text}
+                        </div>
+                        {l.images.map(img => <img key={img.id} className="preview" src={'/api' + img.path}/>)}
+                    </div>)}
+            </div>
+
+
         </div>
     );
 }
