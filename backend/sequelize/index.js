@@ -1,12 +1,7 @@
 const { Sequelize } = require('sequelize');
 const { applyExtraSetup } = require('./extra-setup');
 
-if(!process.env.MYSQL_CONNECT) {
-    console.warn('process.env.MYSQL_CONNECT must be set');
-    process.exit(1)
-}
-
-const sequelize = new Sequelize('mysql://' + process.env.MYSQL_CONNECT);
+const sequelize = new Sequelize(`mysql://${process.env.MYSQL_USER}:${process.env.MYSQL_PASSWORD}@${process.env.MYSQL_HOST}/${process.env.MYSQL_DB}` );
 
 const modelDefiners = [
     require('./models/User'),
