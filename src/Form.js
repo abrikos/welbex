@@ -88,7 +88,7 @@ export default function Form({reload, message, close}) {
         <br/>
         <input type="file" multiple onChange={addFiles}/>
         <button onClick={messageChange}>{message ? 'Update' : 'Create'}</button>
-        <button onClick={destroy}>Destroy</button>
+        {message && <button onClick={destroy}>Destroy</button>}
         {error.message && <div style={{color: 'red'}}>{error.message}</div>}
         <hr/>
         <div className="images-list">
