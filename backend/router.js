@@ -159,6 +159,32 @@ module.exports = function (app) {
         res.send(list);
     })
 
+    /**
+     * @swagger
+     * /api/upload/:file:
+     *   delete:
+     *     summary: View uploaded image
+     *     description: By file name
+     *     parameters:
+     *       - in: path
+     *         name: file
+     *         required: true
+     *         schema:
+     *           type: string
+     *     responses:
+     *       200:
+     *         description: Empty
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: array
+     */
+
+
+    app.get('/api/upload/:file', (req, res) => {
+        console.log(req.params.file)
+        res.sendFile('./upload/' + req.params.file, {root: '.'});
+    })
 
     /**
      * @swagger
