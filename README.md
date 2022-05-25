@@ -16,9 +16,8 @@ MYSQL_DB=test
 ### `sudo ./mysql_create_db.sh`
 
 ## Install packets
-### `yarn install`
-or
 ### `npm install`
+
 ## Create database tables
 
 ### `npm run mysql:init`

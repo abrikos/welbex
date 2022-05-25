@@ -1,7 +1,10 @@
 const sequelize = require('./sequelize');
 const passport = require('./passport');
 const fs = require('fs');
-
+const uploadDir = './upload';
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+}
 module.exports = function (app) {
 
     function catcher(e, res) {
@@ -183,7 +186,7 @@ module.exports = function (app) {
 
     app.get('/api/upload/:file', (req, res) => {
         console.log(req.params.file)
-        res.sendFile('./upload/' + req.params.file, {root: '.'});
+        res.sendFile(uploadDir +'/' + req.params.file, {root: '.'});
     })
 
     /**
