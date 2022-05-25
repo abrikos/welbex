@@ -68,7 +68,7 @@ module.exports = function (app) {
      * @swagger
      * /api/post/:id/update:
      *   post:
-     *     summary: Create a message
+     *     summary: Update message
      *     description: Text and files acceptable
      *     parameters:
      *       - in: path
@@ -117,8 +117,7 @@ module.exports = function (app) {
      * @swagger
      * /api/post/list:
      *  post:
-     *     summary: Delete message
-     *     description: Destroy
+     *     summary: List of messages
      *     responses:
      *       200:
      *         description: Empty
