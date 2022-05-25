@@ -9,7 +9,7 @@ const router = require('./router')
 const swaggerJsdoc = require("swagger-jsdoc")
 const swaggerUi = require("swagger-ui-express");
 
-const portWeb = 4000;
+const portWeb = process.env.API_PORT || 4000;
 const app = express();
 app.use(express.static('upload'));
 app.use(cookieParser());

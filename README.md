@@ -2,6 +2,8 @@
 
 nodejs, mysql, sequelize, react
 ## Create *.env* file
+API_PORT=4000
+
 MYSQL_USER=user
 
 MYSQL_PASSWORD=password
