@@ -11,8 +11,12 @@ MYSQL_HOST=localhost
 MYSQL_DB=test
 
 ## Create database and user
-### `$ ./mysql_create_db.sh`
+### `sudo ./mysql_create_db.sh`
 
+## Install packets
+### `yarn install`
+or
+### `npm install`
 ## Create database tables
 
 ### `npm run mysql:init`
